@@ -1,0 +1,68 @@
+# Paper - warm cream, ink-on-paper, clean typographic feel
+format = """$directory $git_branch$git_status$fill$cmd_duration$line_break$character"""
+
+[fill]
+symbol = " "
+
+[character]
+success_symbol = "[.](bold #5C6A72)"
+error_symbol = "[.](bold #E66868)"
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[directory]
+style = "bold #3A94C5"
+format = "[$path]($style)"
+truncation_length = 4
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "#8DA101"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "#E66868"
+format = "([$all_status$ahead_behind]($style))"
+conflicted = "!"
+untracked = "?"
+ahead = "+${count}"
+behind = "-${count}"
+modified = "*"
+staged = "+"
+deleted = "-"
+
+[nodejs]
+symbol = "node"
+style = "#8DA101"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "py"
+style = "#DFA000"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "rs"
+style = "#E66868"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "go"
+style = "#3A94C5"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "jv"
+style = "#E66868"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style)"
+style = "#939F91"

@@ -1,0 +1,71 @@
+# Latte - Catppuccin Latte, warm pastel light theme
+format = """$directory$git_branch$git_status$line_break$username$hostname$nodejs$python$rust$golang$java$cmd_duration$character"""
+
+[character]
+success_symbol = "[♡](bold #8839EF)"
+error_symbol = "[♡](bold #D20F39)"
+
+[username]
+style_user = "bold #6C6F85"
+style_root = "bold #D20F39"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #8839EF"
+
+[directory]
+style = "bold #1E66F5"
+format = "[ $path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "bold #EA76CB"
+format = "on [$symbol $branch]($style) "
+
+[git_status]
+style = "bold #D20F39"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "!"
+untracked = "○"
+ahead = "↑${count}"
+behind = "↓${count}"
+modified = "●"
+staged = "◉"
+deleted = "⊘"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #40A02B"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #DF8E1D"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #FE640B"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #209FB5"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #D20F39"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "bold #9CA0B0"

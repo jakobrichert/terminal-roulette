@@ -1,0 +1,71 @@
+# Ember - smoldering fire, warm ambers and deep reds
+format = """$username$hostname$directory$git_branch$git_status$nodejs$python$rust$golang$java$cmd_duration$line_break$character"""
+
+[character]
+success_symbol = "[◆](bold #FF6D3A)"
+error_symbol = "[◆](bold #CC3E28)"
+
+[username]
+style_user = "bold #D4BE98"
+style_root = "bold #CC3E28"
+format = "[◇ $user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #D4943A"
+
+[directory]
+style = "bold #FFB454"
+format = "[◈ $path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "../"
+
+[git_branch]
+symbol = "⊙"
+style = "bold #D4943A"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #CC3E28"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "⊘"
+untracked = "◌"
+ahead = "↑${count}"
+behind = "↓${count}"
+modified = "◔"
+staged = "●"
+deleted = "○"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #869A3A"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #D4943A"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #FF6D3A"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #99C0AB"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #CC3E28"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "bold #5B4D4D"

@@ -1,0 +1,71 @@
+# Rose Pine - botanical elegance, muted and gentle
+format = """$directory$git_branch$git_status$line_break$username$hostname$nodejs$python$rust$golang$java$cmd_duration$character"""
+
+[character]
+success_symbol = "[❯](bold #C4A7E7)"
+error_symbol = "[❯](bold #EB6F92)"
+
+[username]
+style_user = "#908CAA"
+style_root = "bold #EB6F92"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #C4A7E7"
+
+[directory]
+style = "bold #9CCFD8"
+format = "[✾ $path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = "⌿"
+style = "bold #C4A7E7"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #F6C177"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "!"
+untracked = "○"
+ahead = "↑${count}"
+behind = "↓${count}"
+modified = "●"
+staged = "◉"
+deleted = "⊘"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #9CCFD8"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #F6C177"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #EB6F92"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #9CCFD8"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #EB6F92"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "bold #6E6A86"

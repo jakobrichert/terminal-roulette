@@ -1,0 +1,71 @@
+# Night Owl - deep navy, wise and watchful
+format = """$directory$git_branch$git_status$line_break$username$hostname$nodejs$python$rust$golang$java$cmd_duration$character"""
+
+[character]
+success_symbol = "[◎](bold #7FDBCA)"
+error_symbol = "[◎](bold #EF5350)"
+
+[username]
+style_user = "bold #5C7E88"
+style_root = "bold #EF5350"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #C792EA"
+
+[directory]
+style = "bold #82AAFF"
+format = "[◉ $path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "bold #ADDB67"
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+style = "bold #EF5350"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "⚡"
+untracked = "◌"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+modified = "◐"
+staged = "◆"
+deleted = "◇"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #22DA6E"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #ADDB67"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #EF5350"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #7FDBCA"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #C792EA"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "bold #5C7E88"

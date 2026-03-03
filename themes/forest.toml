@@ -1,0 +1,75 @@
+# Forest - deep woods, moss and bark, quiet and grounded
+format = """$directory$git_branch$git_status$fill$cmd_duration$line_break$username$hostname$character"""
+
+[fill]
+symbol = "·"
+style = "#2D3A28"
+
+[character]
+success_symbol = "[⌘](bold #8FBE6E)"
+error_symbol = "[⌘](bold #CC6666)"
+
+[username]
+style_user = "bold #7DA687"
+style_root = "bold #CC6666"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #5F9EA0"
+
+[directory]
+style = "bold #A4D48B"
+format = "[🌲 $path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = "⎇"
+style = "bold #D4AA5D"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #CC6666"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "✗"
+untracked = "○"
+ahead = "↑${count}"
+behind = "↓${count}"
+modified = "●"
+staged = "◉"
+deleted = "⊘"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #8FBE6E"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #D4AA5D"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #CC7777"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #72B3B5"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #A87DB6"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style)"
+style = "#4A5748"

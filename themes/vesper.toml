@@ -1,0 +1,69 @@
+# Vesper - warm amber monochrome, dusk tones
+format = """$username $directory$git_branch$git_status$cmd_duration$line_break$character"""
+
+[character]
+success_symbol = "[→](bold #FFC799)"
+error_symbol = "[→](bold #F5A191)"
+
+[username]
+style_user = "#8B8B8B"
+style_root = "bold #F5A191"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+disabled = true
+
+[directory]
+style = "bold #FFC799"
+format = "[$path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "#FFCFA8"
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+style = "#F5A191"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "!"
+untracked = "?"
+ahead = "↑${count}"
+behind = "↓${count}"
+modified = "~"
+staged = "+"
+deleted = "-"
+
+[nodejs]
+symbol = "⬡"
+style = "#FFCFA8"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "py"
+style = "#FFC799"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "rs"
+style = "#F5A191"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "go"
+style = "#FFC799"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "jv"
+style = "#F5A191"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "#555555"

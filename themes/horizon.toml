@@ -1,0 +1,74 @@
+# Horizon - warm sunrise meets cool twilight
+format = """$username$hostname$directory$git_branch$git_status$fill$nodejs$python$rust$golang$java$line_break$cmd_duration$character"""
+
+[fill]
+symbol = " "
+
+[character]
+success_symbol = "[◐](bold #FAB795)"
+error_symbol = "[◑](bold #E95678)"
+
+[username]
+style_user = "bold #FAB795"
+style_root = "bold #E95678"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #EE64AC"
+
+[directory]
+style = "bold #26BBD9"
+format = "[◒ $path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "../"
+
+[git_branch]
+symbol = ""
+style = "bold #29D398"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #E95678"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "⊘"
+untracked = "◌"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+modified = "◑"
+staged = "◉"
+deleted = "⊗"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #29D398"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #FAB795"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #E95678"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #59E3E3"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #EE64AC"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[took $duration]($style) "
+style = "bold #6C6F93"

@@ -1,0 +1,71 @@
+# Sonokai - vivid and electric, Monokai's bold cousin
+format = """$username$hostname $directory $git_branch$git_status$nodejs$python$rust$golang$java$cmd_duration$line_break$character"""
+
+[character]
+success_symbol = "[◉](bold #9ED072)"
+error_symbol = "[◉](bold #FC5D7C)"
+
+[username]
+style_user = "bold #E2E2E3"
+style_root = "bold #FC5D7C"
+format = "[⟨$user⟩]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style)"
+style = "bold #F39660"
+
+[directory]
+style = "bold #76CCE0"
+format = "[⟩ $path]($style)"
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "../"
+
+[git_branch]
+symbol = "⚡"
+style = "bold #E7C664"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "bold #FC5D7C"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "⚔"
+untracked = "?"
+ahead = "⬆${count}"
+behind = "⬇${count}"
+modified = "Δ"
+staged = "+"
+deleted = "×"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #9ED072"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #E7C664"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #F39660"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #76CCE0"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #FC5D7C"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "bold #B39DF3"

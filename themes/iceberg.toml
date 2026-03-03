@@ -1,0 +1,68 @@
+# Iceberg - cold blue-gray, clean and precise
+format = """$directory $git_branch$git_status$fill$cmd_duration$line_break$character"""
+
+[fill]
+symbol = " "
+
+[character]
+success_symbol = "[──▪](bold #84A0C6)"
+error_symbol = "[──▪](bold #E27878)"
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[directory]
+style = "bold #84A0C6"
+format = "[$path]($style)"
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = "⌥"
+style = "bold #89B8C2"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #E27878"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "!"
+untracked = "?"
+ahead = "+${count}"
+behind = "-${count}"
+modified = "~"
+staged = "•"
+deleted = "×"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #B4BE82"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "py"
+style = "bold #E2A478"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "rs"
+style = "bold #E27878"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "go"
+style = "bold #89B8C2"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "jv"
+style = "bold #A093C7"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style)"
+style = "#6B7089"

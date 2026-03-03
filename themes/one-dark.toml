@@ -1,0 +1,71 @@
+# One Dark - Atom's iconic dark theme
+format = """$username$hostname$directory$git_branch$git_status$nodejs$python$rust$golang$java$cmd_duration$line_break$character"""
+
+[character]
+success_symbol = "[λ](bold #C678DD)"
+error_symbol = "[λ](bold #E06C75)"
+
+[username]
+style_user = "bold #98C379"
+style_root = "bold #E06C75"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #E5C07B"
+
+[directory]
+style = "bold #61AFEF"
+format = "[$path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "../"
+
+[git_branch]
+symbol = ""
+style = "bold #E5C07B"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #E06C75"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "⚔"
+untracked = "★"
+ahead = "⬆${count}"
+behind = "⬇${count}"
+modified = "✦"
+staged = "✚"
+deleted = "✘"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #98C379"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #E5C07B"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #E06C75"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #56B6C2"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #E06C75"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "bold #C678DD"

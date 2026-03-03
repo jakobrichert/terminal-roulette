@@ -1,0 +1,75 @@
+# Gruvbox - warm retro, typewriter vibes
+format = """$username$hostname$directory$git_branch$git_status$fill$nodejs$python$rust$golang$java$cmd_duration$line_break$character"""
+
+[fill]
+symbol = "·"
+style = "#3C3836"
+
+[character]
+success_symbol = "[;;](bold #FE8019)"
+error_symbol = "[;;](bold #FB4934)"
+
+[username]
+style_user = "bold #FABD2F"
+style_root = "bold #FB4934"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #D3869B"
+
+[directory]
+style = "bold #FE8019"
+format = "[$path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = "±"
+style = "bold #FABD2F"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #B8BB26"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "≠"
+untracked = "?"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+modified = "~"
+staged = "+"
+deleted = "-"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #B8BB26"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #FABD2F"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #FB4934"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #83A598"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #FB4934"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style)"
+style = "bold #928374"

@@ -1,0 +1,69 @@
+# Moonlight - soft lunar glow with vivid accents
+format = """$directory$git_branch$git_status$line_break$username$character"""
+
+[character]
+success_symbol = "[✦](bold #C099FF)"
+error_symbol = "[✦](bold #FF757F)"
+
+[username]
+style_user = "bold #444A73"
+style_root = "bold #FF757F"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+disabled = true
+
+[directory]
+style = "bold #82AAFF"
+format = "[✧ $path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = "◗"
+style = "bold #FFC777"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #FF757F"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "✕"
+untracked = "✧"
+ahead = "↑${count}"
+behind = "↓${count}"
+modified = "✎"
+staged = "✓"
+deleted = "✕"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #C3E88D"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #FFC777"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #FF757F"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #86E1FC"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #C099FF"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "bold #444A73"

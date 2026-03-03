@@ -1,0 +1,75 @@
+# Aurora - northern lights dancing across a dark sky
+format = """$directory$git_branch$git_status$fill$nodejs$python$rust$golang$java$cmd_duration$line_break$username$hostname$character"""
+
+[fill]
+symbol = "─"
+style = "#1C2333"
+
+[character]
+success_symbol = "[✧](bold #A3BE8C)"
+error_symbol = "[✧](bold #BF616A)"
+
+[username]
+style_user = "bold #88C0D0"
+style_root = "bold #BF616A"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #B48EAD"
+
+[directory]
+style = "bold #8FBCBB"
+format = "[▓▒░ $path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = "⊕"
+style = "bold #A3BE8C"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #BF616A"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "⊗"
+untracked = "◌"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+modified = "≈"
+staged = "⊕"
+deleted = "⊖"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #A3BE8C"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #EBCB8B"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #D08770"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #88C0D0"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #BF616A"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "bold #4C566A"

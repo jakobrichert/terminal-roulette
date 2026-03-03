@@ -1,0 +1,68 @@
+# Vitesse - smart dark, distinctive green accents, Anthony Fu style
+format = """$directory$git_branch$git_status$fill$nodejs$python$rust$golang$java$line_break$character"""
+
+[fill]
+symbol = " "
+
+[character]
+success_symbol = "[>](bold #4D9375)"
+error_symbol = "[>](bold #CB7676)"
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[directory]
+style = "bold #4D9375"
+format = "[$path]($style) "
+truncation_length = 4
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "#B8A965"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "#CB7676"
+format = "([$all_status$ahead_behind]($style))"
+conflicted = "!"
+untracked = "?"
+ahead = "↑${count}"
+behind = "↓${count}"
+modified = "~"
+staged = "+"
+deleted = "-"
+
+[nodejs]
+symbol = "⬡"
+style = "#4D9375"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "py"
+style = "#B8A965"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "rs"
+style = "#CB7676"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "go"
+style = "#4D9375"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "jv"
+style = "#CB7676"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style)"
+style = "#4C4F52"

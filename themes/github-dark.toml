@@ -1,0 +1,71 @@
+# GitHub Dark - clean developer focus, familiar and sharp
+format = """$username$hostname$directory$git_branch$git_status$nodejs$python$rust$golang$java$cmd_duration$line_break$character"""
+
+[character]
+success_symbol = "[\\$](bold #58A6FF)"
+error_symbol = "[\\$](bold #FF7B72)"
+
+[username]
+style_user = "bold #C9D1D9"
+style_root = "bold #FF7B72"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #BC8CFF"
+
+[directory]
+style = "bold #58A6FF"
+format = "[$path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "../"
+
+[git_branch]
+symbol = ""
+style = "bold #D29922"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #FF7B72"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "!"
+untracked = "?"
+ahead = "↑${count}"
+behind = "↓${count}"
+modified = "M"
+staged = "A"
+deleted = "D"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #7EE787"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #D29922"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #FF7B72"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #39D2E0"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #FF7B72"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "bold #484F58"

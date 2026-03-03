@@ -1,0 +1,65 @@
+# Midnight - ultra-dark, sleek, neon edge
+format = """$directory$git_branch$git_status$line_break$character"""
+
+[character]
+success_symbol = "[›](bold #539AFC)"
+error_symbol = "[›](bold #D95468)"
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[directory]
+style = "bold #539AFC"
+format = "[$path]($style) "
+truncation_length = 4
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = "⌁"
+style = "bold #8BD49C"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "bold #D95468"
+format = "([$all_status$ahead_behind]($style))"
+conflicted = "!"
+untracked = "?"
+ahead = "↑${count}"
+behind = "↓${count}"
+modified = "~"
+staged = "+"
+deleted = "×"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #8BD49C"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "py"
+style = "bold #EBBF83"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "rs"
+style = "bold #D95468"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "go"
+style = "bold #5CCFE6"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "jv"
+style = "bold #B877DB"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "#3D4455"

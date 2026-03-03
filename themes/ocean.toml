@@ -1,0 +1,75 @@
+# Ocean - deep sea, waves and coral
+format = """$directory$git_branch$git_status$fill$nodejs$python$rust$golang$java$cmd_duration$line_break$username$hostname$character"""
+
+[fill]
+symbol = "~"
+style = "#1E3A45"
+
+[character]
+success_symbol = "[~>](bold #64D2FF)"
+error_symbol = "[~>](bold #FF6B6B)"
+
+[username]
+style_user = "#5F6A8A"
+style_root = "bold #FF6B6B"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #7B68EE"
+
+[directory]
+style = "bold #64D2FF"
+format = "[≈ $path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = "⚓"
+style = "bold #7B68EE"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #00FA9A"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "⊗"
+untracked = "○"
+ahead = "↑${count}"
+behind = "↓${count}"
+modified = "≋"
+staged = "●"
+deleted = "⊘"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #00FA9A"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #FFD700"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #FF7F50"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #48D1CC"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #FF6B6B"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style)"
+style = "#5F6A8A"

@@ -1,0 +1,71 @@
+# Noctis - deep teal darkness, bioluminescent glow
+format = """$directory$git_branch$git_status$nodejs$python$rust$golang$java$cmd_duration$line_break$username$hostname$character"""
+
+[character]
+success_symbol = "[⟩](bold #49E9A6)"
+error_symbol = "[⟩](bold #E66767)"
+
+[username]
+style_user = "#7060EB"
+style_root = "bold #E66767"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #49E9A6"
+
+[directory]
+style = "bold #49E9A6"
+format = "[» $path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = "⌥"
+style = "bold #16B673"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #E66767"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "⚡"
+untracked = "◌"
+ahead = "↑${count}"
+behind = "↓${count}"
+modified = "≠"
+staged = "≡"
+deleted = "≢"
+
+[nodejs]
+symbol = "⬡"
+style = "bold #16B673"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "🐍"
+style = "bold #D5971A"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "⚙"
+style = "bold #E66767"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "◈"
+style = "bold #49E9A6"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "☕"
+style = "bold #7060EB"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "#5B858B"

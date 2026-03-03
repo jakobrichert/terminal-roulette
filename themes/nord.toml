@@ -1,0 +1,65 @@
+# Nord - arctic frost, minimal and clean
+format = """$directory$git_branch$git_status$line_break$character"""
+
+[character]
+success_symbol = "[➜](bold #88C0D0)"
+error_symbol = "[➜](bold #BF616A)"
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[directory]
+style = "bold #88C0D0"
+format = "[$path]($style) "
+truncation_length = 4
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "bold #81A1C1"
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+style = "bold #A3BE8C"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "="
+untracked = "?"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+modified = "~"
+staged = "+"
+deleted = "-"
+
+[nodejs]
+symbol = " "
+style = "bold #A3BE8C"
+format = "[$symbol$version]($style) "
+
+[python]
+symbol = " "
+style = "bold #EBCB8B"
+format = "[$symbol$version]($style) "
+
+[rust]
+symbol = " "
+style = "bold #D08770"
+format = "[$symbol$version]($style) "
+
+[golang]
+symbol = " "
+style = "bold #88C0D0"
+format = "[$symbol$version]($style) "
+
+[java]
+symbol = " "
+style = "bold #BF616A"
+format = "[$symbol$version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "bold #4C566A"

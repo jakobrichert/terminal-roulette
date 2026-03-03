@@ -1,0 +1,73 @@
+# Ivory - antique warmth, aged parchment elegance
+format = """$username $directory$git_branch$git_status$fill$cmd_duration$line_break$character"""
+
+[fill]
+symbol = "─"
+style = "#C4B7A1"
+
+[character]
+success_symbol = "[~](bold #8B6914)"
+error_symbol = "[~](bold #A03030)"
+
+[username]
+style_user = "#6B5B4E"
+style_root = "bold #A03030"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+disabled = true
+
+[directory]
+style = "bold #4A6B3C"
+format = "[$path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = "§"
+style = "#8B6914"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "#A03030"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "!"
+untracked = "?"
+ahead = "+${count}"
+behind = "-${count}"
+modified = "*"
+staged = "+"
+deleted = "-"
+
+[nodejs]
+symbol = "node"
+style = "#4A6B3C"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "py"
+style = "#8B6914"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "rs"
+style = "#A03030"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "go"
+style = "#4A6B3C"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "jv"
+style = "#7B5B3A"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style)"
+style = "#9E8E7E"

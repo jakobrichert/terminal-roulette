@@ -1,0 +1,68 @@
+# Ayu Dark - sharp, minimal, high contrast
+format = """$directory$git_branch$git_status$fill$nodejs$python$rust$golang$java$cmd_duration$line_break$character"""
+
+[fill]
+symbol = " "
+
+[character]
+success_symbol = "[△](bold #E6B450)"
+error_symbol = "[▽](bold #F07178)"
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[directory]
+style = "bold #59C2FF"
+format = "[$path]($style) "
+truncation_length = 4
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "bold #AAD94C"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "bold #F07178"
+format = "([$all_status$ahead_behind]($style))"
+conflicted = "="
+untracked = "?"
+ahead = "↑${count}"
+behind = "↓${count}"
+modified = "~"
+staged = "+"
+deleted = "-"
+
+[nodejs]
+symbol = "node"
+style = "bold #AAD94C"
+format = "[$symbol $version]($style) "
+
+[python]
+symbol = "py"
+style = "bold #E6B450"
+format = "[$symbol $version]($style) "
+
+[rust]
+symbol = "rs"
+style = "bold #F07178"
+format = "[$symbol $version]($style) "
+
+[golang]
+symbol = "go"
+style = "bold #95E6CB"
+format = "[$symbol $version]($style) "
+
+[java]
+symbol = "jv"
+style = "bold #D2A6FF"
+format = "[$symbol $version]($style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style)"
+style = "bold #686868"
