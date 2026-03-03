@@ -322,15 +322,24 @@ class Handler(http.server.BaseHTTPRequestHandler):
             if not os.path.exists(toml_path):
                 self.send_json({"error": "Theme not found"}, 404)
                 return
-            # We can't directly apply OSC sequences to the user's terminal
-            # from a web server, but we can write a flag file that the shell
-            # picks up, or use a named pipe. For now, return the theme data
-            # so the UI can tell the user to run `theme <name>`.
-            colors = parse_terminal_colors()
-            data = {"applied": name}
-            if name in colors:
-                data.update(colors[name])
-            self.send_json(data)
+            # Launch a new gnome-terminal with env vars set.
+            # The user's .bashrc sources themeshift.sh, which checks
+            # STARSHIP_THEME_NAME — if already set, it skips random
+            # selection and applies that theme directly.
+            try:
+                env = {**os.environ}
+                env["STARSHIP_THEME_NAME"] = name
+                env["STARSHIP_CONFIG"] = toml_path
+                subprocess.Popen(
+                    ["gnome-terminal", "--"],
+                    env=env,
+                    start_new_session=True,
+                )
+                self.send_json({"applied": name, "launched": True})
+            except FileNotFoundError:
+                self.send_json({"error": "gnome-terminal not found"}, 500)
+            except Exception as e:
+                self.send_json({"error": str(e)}, 500)
 
         elif path.startswith("/api/themes/"):
             name = urllib.parse.unquote(path[len("/api/themes/") :])

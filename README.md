@@ -95,6 +95,8 @@ A web-based theme manager for creating, editing, and managing themes visually.
 terminal-roulette-ui
 ```
 
+![theme-manager-ui](screenshots/theme-manager-ui.png)
+
 This opens a local web UI at `http://localhost:8378` with:
 
 - **Theme browser** — grid view of all themes with live color previews
