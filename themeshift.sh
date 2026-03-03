@@ -11,16 +11,51 @@ if [[ -f "$THEMESHIFT_DIR/terminal-colors.sh" ]]; then
     source "$THEMESHIFT_DIR/terminal-colors.sh"
 fi
 
-# Pick a random theme if no theme is currently set for this session
+# Read config.json for lock/favorites settings
+_THEMESHIFT_CONFIG="$THEMESHIFT_DIR/config.json"
 if [[ -z "$STARSHIP_THEME_NAME" ]]; then
-    _themes=("$THEMESHIFT_DIR"/*.toml)
-    if [[ ${#_themes[@]} -gt 0 ]]; then
-        _pick="${_themes[$((RANDOM % ${#_themes[@]}))]}"
+    _locked=""
+    _fav_only=""
+    _favorites=""
+    if [[ -f "$_THEMESHIFT_CONFIG" ]] && command -v python3 &>/dev/null; then
+        _locked="$(python3 -c "import json,sys;c=json.load(open('$_THEMESHIFT_CONFIG'));print(c.get('locked') or '')" 2>/dev/null)"
+        _fav_only="$(python3 -c "import json,sys;c=json.load(open('$_THEMESHIFT_CONFIG'));print('1' if c.get('favoritesOnly') else '')" 2>/dev/null)"
+        _favorites="$(python3 -c "import json,sys;c=json.load(open('$_THEMESHIFT_CONFIG'));print('\n'.join(c.get('favorites',[])))" 2>/dev/null)"
+    fi
+
+    if [[ -n "$_locked" && -f "$THEMESHIFT_DIR/${_locked}.toml" ]]; then
+        # Locked to a specific theme
+        export STARSHIP_CONFIG="$THEMESHIFT_DIR/${_locked}.toml"
+        export STARSHIP_THEME_NAME="$_locked"
+    elif [[ -n "$_fav_only" && -n "$_favorites" ]]; then
+        # Random from favorites only
+        mapfile -t _fav_arr <<< "$_favorites"
+        _valid_favs=()
+        for _f in "${_fav_arr[@]}"; do
+            [[ -f "$THEMESHIFT_DIR/${_f}.toml" ]] && _valid_favs+=("$THEMESHIFT_DIR/${_f}.toml")
+        done
+        if [[ ${#_valid_favs[@]} -gt 0 ]]; then
+            _pick="${_valid_favs[$((RANDOM % ${#_valid_favs[@]}))]}"
+        else
+            _themes=("$THEMESHIFT_DIR"/*.toml)
+            _pick="${_themes[$((RANDOM % ${#_themes[@]}))]}"
+        fi
         export STARSHIP_CONFIG="$_pick"
         export STARSHIP_THEME_NAME="$(basename "$_pick" .toml)"
+        unset _valid_favs _fav_arr _pick _themes
+    else
+        # Random from all themes
+        _themes=("$THEMESHIFT_DIR"/*.toml)
+        if [[ ${#_themes[@]} -gt 0 ]]; then
+            _pick="${_themes[$((RANDOM % ${#_themes[@]}))]}"
+            export STARSHIP_CONFIG="$_pick"
+            export STARSHIP_THEME_NAME="$(basename "$_pick" .toml)"
+        fi
+        unset _themes _pick
     fi
-    unset _themes _pick
+    unset _locked _fav_only _favorites
 fi
+unset _THEMESHIFT_CONFIG
 
 # Apply terminal colors for the selected theme
 if command -v _apply_terminal_theme &>/dev/null; then

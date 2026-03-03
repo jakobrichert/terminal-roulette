@@ -82,9 +82,25 @@ theme                  # list all 45 themes
 theme <name>           # switch to a specific theme
 theme random           # pick a new random theme
 theme preview          # cycle through all themes (2s each)
+terminal-roulette-ui   # open the web theme manager
 ```
 
 Every new terminal window automatically picks a random theme.
+
+## Theme Manager UI
+
+A web-based theme manager for creating, editing, and managing themes visually.
+
+```bash
+terminal-roulette-ui
+```
+
+This opens a local web UI at `http://localhost:8378` with:
+
+- **Theme browser** — grid view of all themes with live color previews
+- **Theme creator** — visual editor with color pickers for background, foreground, cursor, 16-color palette, font, and transparency, plus a live terminal preview
+- **Favorites** — star themes to build a favorites list; optionally restrict random rotation to favorites only
+- **Lock theme** — force a specific theme on every new terminal (no more random)
 
 ## How it works
 
@@ -111,7 +127,7 @@ Theme files live in `~/.config/starship-themes/`. Each `.toml` file controls the
 
 ### Disable random on startup
 
-If you want a fixed theme, add this to your `~/.bashrc` before the themeshift source line:
+Use the theme manager UI to lock a theme, or add this to your `~/.bashrc` before the themeshift source line:
 
 ```bash
 export STARSHIP_THEME_NAME="tokyo-night"

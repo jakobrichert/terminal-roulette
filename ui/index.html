@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terminal Roulette</title>
+<style>
+:root {
+  --bg: #0f0f17;
+  --bg-card: #1a1a2e;
+  --bg-hover: #222240;
+  --bg-modal: #161625;
+  --border: #2a2a44;
+  --text: #e0e0f0;
+  --text-dim: #8888aa;
+  --accent: #7b68ee;
+  --accent-hover: #9580ff;
+  --danger: #ff5555;
+  --success: #50fa7b;
+  --warning: #f1fa8c;
+  --star: #ffd700;
+  --radius: 10px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── Header ─────────────────────────────── */
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo h1 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  font-size: 12px;
+  color: var(--text-dim);
+  background: var(--bg-card);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-dim);
+  font-size: 13px;
+  margin-right: 16px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+}
+
+.status-dot.locked { background: var(--warning); }
+
+/* ─── Buttons ─────────────────────────────── */
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover { background: var(--accent-hover); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.btn-danger:hover { background: rgba(255,85,85,0.15); }
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 18px;
+}
+
+.btn-icon:hover { background: var(--bg-hover); color: var(--text); }
+
+/* ─── Toolbar ─────────────────────────────── */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-card);
+  border-radius: 8px;
+  padding: 3px;
+  border: 1px solid var(--border);
+}
+
+.filter-tab {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  background: transparent;
+  color: var(--text-dim);
+}
+
+.filter-tab.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.filter-tab:hover:not(.active) {
+  color: var(--text);
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 14px;
+}
+
+.search-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 13px;
+  width: 200px;
+  font-family: inherit;
+}
+
+.search-box input::placeholder { color: var(--text-dim); }
+
+.search-icon { color: var(--text-dim); font-size: 14px; }
+
+/* ─── Theme Grid ──────────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  padding: 0 32px 32px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.card.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent), var(--shadow);
+}
+
+.card-preview {
+  height: 110px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'FiraCode Nerd Font', 'Fira Code', 'Hack', 'Consolas', monospace;
+  font-size: 11px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-preview .line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.9;
+}
+
+.card-preview .prompt-char {
+  font-weight: bold;
+}
+
+.card-preview .dim {
+  opacity: 0.5;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+}
+
+.card-name {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.card-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.card-actions button {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.card-actions button:hover { background: var(--bg-hover); }
+
+.card-actions .fav { color: var(--text-dim); }
+.card-actions .fav.active { color: var(--star); }
+.card-actions .edit-btn:hover { color: var(--accent); }
+
+.palette-strip {
+  display: flex;
+  height: 4px;
+  width: 100%;
+}
+
+.palette-strip div {
+  flex: 1;
+  height: 100%;
+}
+
+/* ─── Modal Overlay ──────────────────────── */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--bg-modal);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  width: 900px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.modal-col {
+  padding: 20px 24px;
+}
+
+.modal-col:first-child {
+  border-right: 1px solid var(--border);
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+}
+
+/* ─── Form Fields ─────────────────────────── */
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field input[type="text"],
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--accent);
+}
+
+.field textarea {
+  font-family: 'FiraCode Nerd Font', 'Fira Code', 'Hack', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 200px;
+}
+
+.field select {
+  cursor: pointer;
+}
+
+.color-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.color-field input[type="color"] {
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  padding: 2px;
+}
+
+.color-field input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+.color-field input[type="color"]::-webkit-color-swatch { border: none; border-radius: 4px; }
+
+.color-field input[type="text"] {
+  flex: 1;
+  font-family: 'FiraCode Nerd Font', 'Fira Code', monospace;
+  font-size: 12px;
+}
+
+.range-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.range-field input[type="range"] {
+  flex: 1;
+  accent-color: var(--accent);
+  height: 4px;
+}
+
+.range-field .range-val {
+  font-size: 12px;
+  color: var(--text-dim);
+  min-width: 30px;
+  text-align: right;
+  font-family: monospace;
+}
+
+/* ─── Palette Grid ────────────────────────── */
+
+.palette-section h3 {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.palette-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.palette-cell input[type="color"] {
+  width: 100%;
+  height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  background: transparent;
+  padding: 1px;
+}
+
+.palette-cell input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+.palette-cell input[type="color"]::-webkit-color-swatch { border: none; border-radius: 3px; }
+
+.palette-cell span {
+  font-size: 8px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.palette-labels {
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+/* ─── Live Preview ────────────────────────── */
+
+.preview-terminal {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  font-family: 'FiraCode Nerd Font', 'Fira Code', 'Hack', monospace;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+.preview-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.05);
+}
+
+.preview-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.preview-content {
+  padding: 14px;
+  min-height: 180px;
+  line-height: 1.6;
+}
+
+.preview-content .p-prompt { font-weight: bold; }
+.preview-content .p-dim { opacity: 0.5; }
+
+/* ─── Settings Panel ──────────────────────── */
+
+.settings-panel {
+  position: fixed;
+  top: 0;
+  right: -380px;
+  width: 380px;
+  height: 100vh;
+  background: var(--bg-modal);
+  border-left: 1px solid var(--border);
+  z-index: 300;
+  transition: right 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-panel.open { right: 0; }
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.settings-header h2 { font-size: 16px; font-weight: 600; }
+
+.settings-body {
+  padding: 20px 24px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.setting-info h3 { font-size: 14px; font-weight: 500; }
+.setting-info p { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.toggle input { display: none; }
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: var(--border);
+  border-radius: 12px;
+  transition: 0.2s;
+}
+
+.toggle-slider::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 18px;
+  height: 18px;
+  background: var(--text);
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.toggle input:checked + .toggle-slider {
+  background: var(--accent);
+}
+
+.toggle input:checked + .toggle-slider::after {
+  transform: translateX(20px);
+}
+
+.lock-select {
+  margin-top: 10px;
+}
+
+.lock-select select {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 250;
+  display: none;
+}
+
+.settings-overlay.open { display: block; }
+
+/* ─── Toast ───────────────────────────────── */
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  z-index: 400;
+  box-shadow: var(--shadow);
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.25s ease;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast.success { border-color: var(--success); }
+.toast.error { border-color: var(--danger); }
+
+/* ─── Scrollbar ───────────────────────────── */
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #444; }
+
+/* ─── Empty state ─────────────────────────── */
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-dim);
+}
+
+.empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- ═══ Header ═══ -->
+<header>
+  <div class="logo">
+    <h1>Terminal Roulette</h1>
+    <span id="theme-count">0 themes</span>
+  </div>
+  <div class="header-actions">
+    <div class="status-bar">
+      <div class="status-dot" id="status-dot"></div>
+      <span id="status-text">Loading...</span>
+    </div>
+    <button class="btn btn-primary" onclick="openEditor()">+ New Theme</button>
+    <button class="btn-icon" onclick="toggleSettings()" title="Settings">&#9881;</button>
+  </div>
+</header>
+
+<!-- ═══ Toolbar ═══ -->
+<div class="toolbar">
+  <div class="filter-tabs">
+    <button class="filter-tab active" data-filter="all">All</button>
+    <button class="filter-tab" data-filter="favorites">Favorites</button>
+    <button class="filter-tab" data-filter="dark">Dark</button>
+    <button class="filter-tab" data-filter="light">Light</button>
+  </div>
+  <div class="search-box">
+    <span class="search-icon">&#128269;</span>
+    <input type="text" id="search" placeholder="Search themes..." oninput="filterThemes()">
+  </div>
+</div>
+
+<!-- ═══ Theme Grid ═══ -->
+<div class="grid" id="grid"></div>
+
+<!-- ═══ Theme Editor Modal ═══ -->
+<div class="modal-overlay" id="editor-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="editor-title">New Theme</h2>
+      <button class="btn-icon" onclick="closeEditor()">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <!-- Left: Settings -->
+      <div class="modal-col">
+        <div class="field">
+          <label>Theme Name</label>
+          <input type="text" id="ed-name" placeholder="my-theme" pattern="[a-z0-9-]+">
+        </div>
+        <div class="field">
+          <label>Background</label>
+          <div class="color-field">
+            <input type="color" id="ed-bg" value="#1A1B26" oninput="syncColor('bg')">
+            <input type="text" id="ed-bg-text" value="#1A1B26" oninput="syncColorText('bg')">
+          </div>
+        </div>
+        <div class="field">
+          <label>Foreground</label>
+          <div class="color-field">
+            <input type="color" id="ed-fg" value="#C0CAF5" oninput="syncColor('fg')">
+            <input type="text" id="ed-fg-text" value="#C0CAF5" oninput="syncColorText('fg')">
+          </div>
+        </div>
+        <div class="field">
+          <label>Cursor</label>
+          <div class="color-field">
+            <input type="color" id="ed-cursor" value="#C0CAF5" oninput="syncColor('cursor')">
+            <input type="text" id="ed-cursor-text" value="#C0CAF5" oninput="syncColorText('cursor')">
+          </div>
+        </div>
+        <div class="field">
+          <label>Font</label>
+          <select id="ed-font">
+            <option value="FiraCode Nerd Font Mono 11">FiraCode Nerd Font Mono 11</option>
+            <option value="FiraCode Nerd Font Mono 12">FiraCode Nerd Font Mono 12</option>
+            <option value="Hack 11">Hack 11</option>
+            <option value="Hack 12">Hack 12</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Transparency</label>
+          <div class="range-field">
+            <input type="range" id="ed-transparency" min="0" max="25" value="0" oninput="updateTransparencyLabel()">
+            <span class="range-val" id="ed-transparency-val">0%</span>
+          </div>
+        </div>
+        <div class="palette-section">
+          <h3>16-Color Palette</h3>
+          <div class="palette-grid" id="palette-grid"></div>
+        </div>
+      </div>
+
+      <!-- Right: Preview + TOML -->
+      <div class="modal-col">
+        <div class="field">
+          <label>Live Preview</label>
+          <div class="preview-terminal" id="live-preview">
+            <div class="preview-titlebar" id="preview-titlebar">
+              <div class="preview-dot" style="background:#ff5f56"></div>
+              <div class="preview-dot" style="background:#ffbd2e"></div>
+              <div class="preview-dot" style="background:#27c93f"></div>
+            </div>
+            <div class="preview-content" id="preview-content"></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Starship Config (TOML)</label>
+          <textarea id="ed-toml" spellcheck="false"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="ed-delete-btn" onclick="deleteCurrentTheme()" style="margin-right:auto;display:none">Delete</button>
+      <button class="btn btn-ghost" onclick="closeEditor()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTheme()">Save Theme</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Settings Panel ═══ -->
+<div class="settings-overlay" id="settings-overlay" onclick="toggleSettings()"></div>
+<div class="settings-panel" id="settings-panel">
+  <div class="settings-header">
+    <h2>Settings</h2>
+    <button class="btn-icon" onclick="toggleSettings()">&#10005;</button>
+  </div>
+  <div class="settings-body">
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Lock Theme</h3>
+        <p>Always use a specific theme on startup</p>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="lock-toggle" onchange="toggleLock()">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    <div class="lock-select" id="lock-select-wrap" style="display:none">
+      <select id="lock-theme-select" onchange="setLockedTheme()"></select>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Favorites Only</h3>
+        <p>Random rotation picks only from favorites</p>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="favonly-toggle" onchange="toggleFavoritesOnly()">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <div class="setting-row" style="border-bottom:none; padding-top:24px; flex-direction:column; align-items:stretch; gap:10px;">
+      <div class="setting-info">
+        <h3>Theme Directory</h3>
+        <p id="themes-dir-display" style="font-family:monospace;font-size:11px;word-break:break-all;margin-top:6px;">~/.config/starship-themes/</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Toast ═══ -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// State
+// ═══════════════════════════════════════════════════════════════
+
+let themes = [];
+let config = { favorites: [], favoritesOnly: false, locked: null };
+let currentFilter = 'all';
+let editingTheme = null; // null = new, string = editing existing
+
+const PALETTE_NAMES = [
+  'Black', 'Red', 'Green', 'Yellow', 'Blue', 'Magenta', 'Cyan', 'White',
+  'Br Black', 'Br Red', 'Br Green', 'Br Yellow', 'Br Blue', 'Br Magenta', 'Br Cyan', 'Br White'
+];
+
+const LIGHT_THEMES = ['paper', 'snow', 'latte', 'github-light', 'ivory'];
+
+const DEFAULT_TOML = `# Theme prompt configuration
+format = """$username$hostname$directory$git_branch$git_status$fill$nodejs$python$rust$cmd_duration$line_break$character"""
+
+[fill]
+symbol = " "
+
+[character]
+success_symbol = "[>](bold #7AA2F7)"
+error_symbol = "[>](bold #F7768E)"
+
+[username]
+style_user = "bold #7DCFFF"
+style_root = "bold #F7768E"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold #BB9AF7"
+
+[directory]
+style = "bold #7AA2F7"
+format = "[$path]($style) "
+truncation_length = 3
+
+[git_branch]
+symbol = ""
+style = "bold #BB9AF7"
+format = "[$symbol $branch]($style) "
+
+[git_status]
+style = "bold #9ECE6A"
+format = "([$all_status$ahead_behind]($style) )"
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style)"
+style = "bold #414868"
+`;
+
+// ═══════════════════════════════════════════════════════════════
+// API
+// ═══════════════════════════════════════════════════════════════
+
+async function api(path, opts = {}) {
+  const res = await fetch(path, {
+    headers: { 'Content-Type': 'application/json' },
+    ...opts,
+  });
+  return res.json();
+}
+
+async function loadThemes() {
+  themes = await api('/api/themes');
+  config = await api('/api/config');
+  renderGrid();
+  updateStatus();
+  updateSettings();
+  document.getElementById('theme-count').textContent = `${themes.length} themes`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Rendering
+// ═══════════════════════════════════════════════════════════════
+
+function isLightTheme(t) {
+  if (LIGHT_THEMES.includes(t.name)) return true;
+  if (!t.bg) return false;
+  // Check luminance
+  const hex = t.bg.replace('#','');
+  const r = parseInt(hex.substr(0,2),16);
+  const g = parseInt(hex.substr(2,2),16);
+  const b = parseInt(hex.substr(4,2),16);
+  return (r*0.299 + g*0.587 + b*0.114) > 160;
+}
+
+function getFilteredThemes() {
+  const search = document.getElementById('search').value.toLowerCase();
+  return themes.filter(t => {
+    if (search && !t.name.includes(search)) return false;
+    if (currentFilter === 'favorites') return t.favorite;
+    if (currentFilter === 'dark') return !isLightTheme(t);
+    if (currentFilter === 'light') return isLightTheme(t);
+    return true;
+  });
+}
+
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  const filtered = getFilteredThemes();
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><div class="icon">&#127912;</div><p>No themes match your filter</p></div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(t => {
+    const bg = t.bg || '#1a1a2e';
+    const fg = t.fg || '#e0e0f0';
+    const cursor = t.cursor || fg;
+    const palette = t.palette || [];
+    const isActive = config.locked === t.name;
+    const accent = palette[4] || '#7b68ee';
+    const green = palette[2] || '#50fa7b';
+    const dim = palette[8] || '#666';
+
+    return `
+      <div class="card ${isActive ? 'active' : ''}" onclick="applyTheme('${t.name}')">
+        <div class="card-preview" style="background:${bg};color:${fg}">
+          <div class="line"><span class="prompt-char" style="color:${accent}">user</span> <span style="color:${dim}">~/projects</span> <span style="color:${cursor}">&#10095;</span> ls -la</div>
+          <div class="line">drwxr-xr-x  3 user user  4096 <span style="color:${green}">src/</span></div>
+          <div class="line">-rw-r--r--  1 user user  2847 main.ts</div>
+          <div class="line"><span class="prompt-char" style="color:${accent}">user</span> <span style="color:${dim}">~/projects</span> <span style="color:${cursor}">&#10095;</span> <span class="dim">_</span></div>
+        </div>
+        ${palette.length >= 8 ? `
+        <div class="palette-strip">
+          ${palette.slice(0,8).map(c => `<div style="background:${c}"></div>`).join('')}
+        </div>` : ''}
+        <div class="card-footer">
+          <span class="card-name">${t.name}</span>
+          <div class="card-actions">
+            <button class="fav ${t.favorite ? 'active' : ''}" onclick="event.stopPropagation();toggleFav('${t.name}')" title="Favorite">&#9733;</button>
+            <button class="edit-btn" onclick="event.stopPropagation();openEditor('${t.name}')" title="Edit">&#9998;</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function updateStatus() {
+  const dot = document.getElementById('status-dot');
+  const text = document.getElementById('status-text');
+  if (config.locked) {
+    dot.className = 'status-dot locked';
+    text.textContent = `Locked: ${config.locked}`;
+  } else if (config.favoritesOnly && config.favorites.length > 0) {
+    dot.className = 'status-dot';
+    dot.style.background = '#82aaff';
+    text.textContent = `Favorites only (${config.favorites.length})`;
+  } else {
+    dot.className = 'status-dot';
+    dot.style.background = '';
+    text.textContent = `Random from ${themes.length} themes`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Filter tabs
+// ═══════════════════════════════════════════════════════════════
+
+document.querySelectorAll('.filter-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentFilter = tab.dataset.filter;
+    renderGrid();
+  });
+});
+
+function filterThemes() { renderGrid(); }
+
+// ═══════════════════════════════════════════════════════════════
+// Theme Actions
+// ═══════════════════════════════════════════════════════════════
+
+async function applyTheme(name) {
+  const result = await api(`/api/themes/${name}/apply`, { method: 'POST' });
+  if (result.error) {
+    showToast(result.error, 'error');
+  } else {
+    showToast(`Run: theme ${name}`, 'success');
+  }
+}
+
+async function toggleFav(name) {
+  const idx = config.favorites.indexOf(name);
+  if (idx >= 0) {
+    config.favorites.splice(idx, 1);
+  } else {
+    config.favorites.push(name);
+  }
+  await api('/api/config', {
+    method: 'PUT',
+    body: JSON.stringify({ favorites: config.favorites }),
+  });
+  // Update local theme objects
+  themes.forEach(t => t.favorite = config.favorites.includes(t.name));
+  renderGrid();
+  updateStatus();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Theme Editor
+// ═══════════════════════════════════════════════════════════════
+
+function initPaletteGrid() {
+  const grid = document.getElementById('palette-grid');
+  grid.innerHTML = '';
+  for (let i = 0; i < 16; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'palette-cell';
+    cell.innerHTML = `
+      <input type="color" id="pal-${i}" value="#888888" oninput="updatePreview()">
+      <span>${PALETTE_NAMES[i]}</span>
+    `;
+    grid.appendChild(cell);
+  }
+}
+
+function openEditor(name) {
+  editingTheme = name || null;
+  const overlay = document.getElementById('editor-overlay');
+  const title = document.getElementById('editor-title');
+  const nameInput = document.getElementById('ed-name');
+  const deleteBtn = document.getElementById('ed-delete-btn');
+
+  initPaletteGrid();
+
+  if (name) {
+    title.textContent = `Edit: ${name}`;
+    nameInput.value = name;
+    nameInput.readOnly = true;
+    deleteBtn.style.display = 'block';
+    loadThemeIntoEditor(name);
+  } else {
+    title.textContent = 'New Theme';
+    nameInput.value = '';
+    nameInput.readOnly = false;
+    deleteBtn.style.display = 'none';
+    // Defaults
+    document.getElementById('ed-bg').value = '#1A1B26';
+    document.getElementById('ed-bg-text').value = '#1A1B26';
+    document.getElementById('ed-fg').value = '#C0CAF5';
+    document.getElementById('ed-fg-text').value = '#C0CAF5';
+    document.getElementById('ed-cursor').value = '#C0CAF5';
+    document.getElementById('ed-cursor-text').value = '#C0CAF5';
+    document.getElementById('ed-font').value = 'FiraCode Nerd Font Mono 11';
+    document.getElementById('ed-transparency').value = 0;
+    document.getElementById('ed-transparency-val').textContent = '0%';
+    document.getElementById('ed-toml').value = DEFAULT_TOML;
+
+    const defaultPalette = [
+      '#15161E','#F7768E','#9ECE6A','#E0AF68',
+      '#7AA2F7','#BB9AF7','#7DCFFF','#A9B1D6',
+      '#414868','#F7768E','#9ECE6A','#E0AF68',
+      '#7AA2F7','#BB9AF7','#7DCFFF','#C0CAF5'
+    ];
+    for (let i = 0; i < 16; i++) {
+      document.getElementById(`pal-${i}`).value = defaultPalette[i];
+    }
+  }
+
+  overlay.classList.add('open');
+  updatePreview();
+}
+
+async function loadThemeIntoEditor(name) {
+  const data = await api(`/api/themes/${name}`);
+  if (data.error) { showToast(data.error, 'error'); return; }
+
+  const setColor = (key, val) => {
+    const v = val || '#000000';
+    document.getElementById(`ed-${key}`).value = v;
+    document.getElementById(`ed-${key}-text`).value = v;
+  };
+
+  setColor('bg', data.bg);
+  setColor('fg', data.fg);
+  setColor('cursor', data.cursor);
+
+  if (data.font) document.getElementById('ed-font').value = data.font;
+  document.getElementById('ed-transparency').value = data.transparency || 0;
+  document.getElementById('ed-transparency-val').textContent = `${data.transparency || 0}%`;
+
+  if (data.palette && data.palette.length === 16) {
+    for (let i = 0; i < 16; i++) {
+      document.getElementById(`pal-${i}`).value = data.palette[i];
+    }
+  }
+
+  if (data.toml) {
+    document.getElementById('ed-toml').value = data.toml;
+  }
+
+  updatePreview();
+}
+
+function closeEditor() {
+  document.getElementById('editor-overlay').classList.remove('open');
+  editingTheme = null;
+}
+
+function syncColor(key) {
+  const val = document.getElementById(`ed-${key}`).value;
+  document.getElementById(`ed-${key}-text`).value = val;
+  updatePreview();
+}
+
+function syncColorText(key) {
+  let val = document.getElementById(`ed-${key}-text`).value.trim();
+  if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+    document.getElementById(`ed-${key}`).value = val;
+  }
+  updatePreview();
+}
+
+function updateTransparencyLabel() {
+  const v = document.getElementById('ed-transparency').value;
+  document.getElementById('ed-transparency-val').textContent = `${v}%`;
+}
+
+function updatePreview() {
+  const bg = document.getElementById('ed-bg').value;
+  const fg = document.getElementById('ed-fg').value;
+  const cursor = document.getElementById('ed-cursor').value;
+  const palette = [];
+  for (let i = 0; i < 16; i++) {
+    const el = document.getElementById(`pal-${i}`);
+    palette.push(el ? el.value : '#888');
+  }
+
+  const content = document.getElementById('preview-content');
+  const titlebar = document.getElementById('preview-titlebar');
+
+  content.style.background = bg;
+  content.style.color = fg;
+  titlebar.style.background = bg;
+  titlebar.style.filter = 'brightness(1.2)';
+
+  const green = palette[2] || '#50fa7b';
+  const blue = palette[4] || '#7aa2f7';
+  const magenta = palette[5] || '#bb9af7';
+  const cyan = palette[6] || '#7dcfff';
+  const dim = palette[8] || '#666';
+  const red = palette[1] || '#ff5555';
+  const yellow = palette[3] || '#e0af68';
+
+  content.innerHTML = `
+    <div><span style="color:${cyan}">user</span> <span style="color:${blue}">~/projects/app</span> <span style="color:${magenta}">main</span> <span style="color:${cursor}">&#10095;</span> ls -la src/</div>
+    <div>drwxr-xr-x  3 user user  4096 <span style="color:${blue}">components/</span></div>
+    <div>-rw-r--r--  1 user user  2847 <span style="color:${green}">main.ts</span></div>
+    <div>-rw-r--r--  1 user user   493 index.ts</div>
+    <div>&nbsp;</div>
+    <div><span style="color:${cyan}">user</span> <span style="color:${blue}">~/projects/app</span> <span style="color:${magenta}">main</span> <span style="color:${cursor}">&#10095;</span> git log --oneline -3</div>
+    <div><span style="color:${yellow}">a3f82c1</span> feat: add theme randomizer</div>
+    <div><span style="color:${yellow}">e7b19d4</span> <span style="color:${red}">fix</span>: correct palette ordering</div>
+    <div><span style="color:${yellow}">1c4a5e9</span> refactor: extract color config</div>
+    <div>&nbsp;</div>
+    <div><span style="color:${cyan}">user</span> <span style="color:${blue}">~/projects/app</span> <span style="color:${magenta}">main</span> <span style="color:${cursor}">&#10095;</span> <span style="opacity:0.4">_</span></div>
+  `;
+}
+
+async function saveTheme() {
+  const name = document.getElementById('ed-name').value.trim();
+  if (!name) { showToast('Theme name is required', 'error'); return; }
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(name)) {
+    showToast('Use lowercase letters, numbers, and hyphens', 'error');
+    return;
+  }
+
+  const palette = [];
+  for (let i = 0; i < 16; i++) {
+    palette.push(document.getElementById(`pal-${i}`).value);
+  }
+
+  const data = {
+    bg: document.getElementById('ed-bg').value,
+    fg: document.getElementById('ed-fg').value,
+    cursor: document.getElementById('ed-cursor').value,
+    font: document.getElementById('ed-font').value,
+    transparency: parseInt(document.getElementById('ed-transparency').value),
+    palette: palette,
+    toml: document.getElementById('ed-toml').value,
+  };
+
+  const result = await api(`/api/themes/${name}`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+
+  if (result.error) {
+    showToast(result.error, 'error');
+  } else {
+    showToast(`Saved: ${name}`, 'success');
+    closeEditor();
+    await loadThemes();
+  }
+}
+
+async function deleteCurrentTheme() {
+  if (!editingTheme) return;
+  if (!confirm(`Delete theme "${editingTheme}"? This cannot be undone.`)) return;
+
+  const result = await api(`/api/themes/${editingTheme}`, { method: 'DELETE' });
+  if (result.error) {
+    showToast(result.error, 'error');
+  } else {
+    showToast(`Deleted: ${editingTheme}`, 'success');
+    closeEditor();
+    await loadThemes();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Settings
+// ═══════════════════════════════════════════════════════════════
+
+function toggleSettings() {
+  document.getElementById('settings-panel').classList.toggle('open');
+  document.getElementById('settings-overlay').classList.toggle('open');
+}
+
+function updateSettings() {
+  document.getElementById('lock-toggle').checked = !!config.locked;
+  document.getElementById('favonly-toggle').checked = config.favoritesOnly;
+  document.getElementById('lock-select-wrap').style.display = config.locked ? 'block' : 'none';
+
+  // Populate lock theme dropdown
+  const sel = document.getElementById('lock-theme-select');
+  sel.innerHTML = themes.map(t =>
+    `<option value="${t.name}" ${config.locked === t.name ? 'selected' : ''}>${t.name}</option>`
+  ).join('');
+}
+
+async function toggleLock() {
+  const checked = document.getElementById('lock-toggle').checked;
+  if (checked) {
+    const first = themes[0]?.name || null;
+    config.locked = config.locked || first;
+  } else {
+    config.locked = null;
+  }
+  document.getElementById('lock-select-wrap').style.display = config.locked ? 'block' : 'none';
+  await api('/api/config', {
+    method: 'PUT',
+    body: JSON.stringify({ locked: config.locked }),
+  });
+  updateStatus();
+  renderGrid();
+}
+
+async function setLockedTheme() {
+  config.locked = document.getElementById('lock-theme-select').value;
+  await api('/api/config', {
+    method: 'PUT',
+    body: JSON.stringify({ locked: config.locked }),
+  });
+  updateStatus();
+  renderGrid();
+}
+
+async function toggleFavoritesOnly() {
+  config.favoritesOnly = document.getElementById('favonly-toggle').checked;
+  await api('/api/config', {
+    method: 'PUT',
+    body: JSON.stringify({ favoritesOnly: config.favoritesOnly }),
+  });
+  updateStatus();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Toast
+// ═══════════════════════════════════════════════════════════════
+
+function showToast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast ${type} show`;
+  clearTimeout(el._timeout);
+  el._timeout = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════════════════════════
+
+loadThemes();
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# ═══════════════════════════════════════════════════════════════════
+# Terminal Roulette - Theme Manager UI Launcher
+# Opens the web-based theme manager in your browser
+# ═══════════════════════════════════════════════════════════════════
+
+PORT="${TERMINAL_ROULETTE_PORT:-8378}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+echo ""
+echo -e "  \033[1;36mTerminal Roulette\033[0m \033[2mtheme manager\033[0m"
+echo -e "  \033[2mhttp://localhost:${PORT}\033[0m"
+echo ""
+
+# Start server
+python3 "$SCRIPT_DIR/server.py" "$PORT" &
+SERVER_PID=$!
+
+# Wait for server to start
+sleep 0.5
+
+# Open browser
+if command -v xdg-open &>/dev/null; then
+    xdg-open "http://localhost:${PORT}" 2>/dev/null
+elif command -v open &>/dev/null; then
+    open "http://localhost:${PORT}"
+else
+    echo "  Open http://localhost:${PORT} in your browser"
+fi
+
+echo -e "  \033[2mPress Ctrl+C to stop\033[0m"
+echo ""
+
+# Wait for server (forward Ctrl+C)
+trap "kill $SERVER_PID 2>/dev/null; exit 0" INT TERM
+wait $SERVER_PID

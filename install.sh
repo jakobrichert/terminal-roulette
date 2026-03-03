@@ -65,6 +65,19 @@ mkdir -p "$SCRIPT_DEST"
 cp "$REPO_DIR/themeshift.sh" "$SCRIPT_DEST/themeshift.sh"
 echo -e "  ${GREEN}✓${RESET} Installed themeshift.sh to ${DIM}${SCRIPT_DEST}${RESET}"
 
+# ─── Install UI ────────────────────────────────────────────────
+
+mkdir -p "$SCRIPT_DEST/ui"
+cp "$REPO_DIR/ui/server.py" "$SCRIPT_DEST/ui/"
+cp "$REPO_DIR/ui/index.html" "$SCRIPT_DEST/ui/"
+cp "$REPO_DIR/ui/terminal-roulette-ui" "$SCRIPT_DEST/ui/"
+chmod +x "$SCRIPT_DEST/ui/terminal-roulette-ui"
+
+# Create a convenience command
+mkdir -p "$HOME/.local/bin"
+ln -sf "$SCRIPT_DEST/ui/terminal-roulette-ui" "$HOME/.local/bin/terminal-roulette-ui"
+echo -e "  ${GREEN}✓${RESET} Installed theme manager UI ${DIM}(run: terminal-roulette-ui)${RESET}"
+
 # ─── Add to shell config ────────────────────────────────────────
 
 SOURCE_LINE='# Terminal Roulette - random theme on every new shell'
@@ -90,8 +103,9 @@ echo ""
 echo -e "  ${GREEN}Done!${RESET} Open a new terminal to see a random theme."
 echo ""
 echo -e "  ${BOLD}Commands:${RESET}"
-echo -e "    ${CYAN}theme${RESET}            List all themes"
-echo -e "    ${CYAN}theme${RESET} <name>      Switch to a theme"
-echo -e "    ${CYAN}theme random${RESET}      Random theme"
-echo -e "    ${CYAN}theme preview${RESET}     Cycle through all themes"
+echo -e "    ${CYAN}theme${RESET}                    List all themes"
+echo -e "    ${CYAN}theme${RESET} <name>              Switch to a theme"
+echo -e "    ${CYAN}theme random${RESET}              Random theme"
+echo -e "    ${CYAN}theme preview${RESET}             Cycle through all themes"
+echo -e "    ${CYAN}terminal-roulette-ui${RESET}      Open theme manager UI"
 echo ""
