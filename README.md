@@ -94,27 +94,13 @@ A web-based theme manager for browsing, creating, and managing themes visually. 
 
 ![theme-manager-ui](screenshots/theme-manager-ui.png)
 
-### Running the UI
-
-After installing with `install.sh`:
+After installing, just run from any terminal:
 
 ```bash
 terminal-roulette-ui
 ```
 
-Or run directly from the repo (no install needed):
-
-```bash
-cd terminal-roulette
-./ui/terminal-roulette-ui
-```
-
-Or manually with Python:
-
-```bash
-python3 terminal-roulette/ui/server.py
-# Then open http://localhost:8378
-```
+This starts a local server and opens `http://localhost:8378` in your browser.
 
 ### Features
 
