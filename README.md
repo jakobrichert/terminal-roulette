@@ -71,6 +71,7 @@ Then open a new terminal.
 ### Requirements
 
 - **Bash** (4.0+)
+- **Python 3** (for the theme manager UI and config support)
 - **[Starship](https://starship.rs)** prompt (installed automatically if missing)
 - **GNOME Terminal** or any terminal supporting OSC color sequences
 - A **[Nerd Font](https://www.nerdfonts.com)** (recommended: FiraCode Nerd Font or Hack)
@@ -89,20 +90,44 @@ Every new terminal window automatically picks a random theme.
 
 ## Theme Manager UI
 
-A web-based theme manager for creating, editing, and managing themes visually.
+A web-based theme manager for browsing, creating, and managing themes visually. Click any theme to open a new terminal with it applied.
+
+![theme-manager-ui](screenshots/theme-manager-ui.png)
+
+### Running the UI
+
+After installing with `install.sh`:
 
 ```bash
 terminal-roulette-ui
 ```
 
-![theme-manager-ui](screenshots/theme-manager-ui.png)
+Or run directly from the repo (no install needed):
 
-This opens a local web UI at `http://localhost:8378` with:
+```bash
+cd terminal-roulette
+./ui/terminal-roulette-ui
+```
 
-- **Theme browser** — grid view of all themes with live color previews
-- **Theme creator** — visual editor with color pickers for background, foreground, cursor, 16-color palette, font, and transparency, plus a live terminal preview
-- **Favorites** — star themes to build a favorites list; optionally restrict random rotation to favorites only
+Or manually with Python:
+
+```bash
+python3 terminal-roulette/ui/server.py
+# Then open http://localhost:8378
+```
+
+### Features
+
+- **Theme browser** — grid view of all 45 themes with live terminal color previews. Click a theme to open a new terminal with it applied.
+- **Theme creator** — visual editor with color pickers for background, foreground, cursor, 16-color palette, font, and transparency, plus a live terminal mockup preview
+- **Favorites** — star themes to build a favorites list; enable "favorites only" in settings to restrict random rotation to just your favorites
 - **Lock theme** — force a specific theme on every new terminal (no more random)
+- **Search & filter** — filter by All / Favorites / Dark / Light, or search by name
+
+### Requirements
+
+- **Python 3** (no extra packages needed — uses stdlib only)
+- A web browser
 
 ## How it works
 
